@@ -75,7 +75,7 @@ object WebCommandPath {
     def unapply(path: String): Option[(String, String)] = {
       versionedInitPathRegex.findFirstMatchIn(path) match {
         case None => None
-        case Some(matched) => Some(matched.group(1), matched.group(2))
+        case Some(matched) => Some((matched.group(1), matched.group(2)))
       }
     }
   }
