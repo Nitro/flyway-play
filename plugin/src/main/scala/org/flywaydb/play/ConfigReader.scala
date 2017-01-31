@@ -39,6 +39,7 @@ class ConfigReader(configuration: Configuration, environment: Environment) {
       database <- getDatabaseConfiguration(configuration, dbName)
       subConfig = configuration.getConfig(s"db.$dbName.migration").getOrElse(Configuration.empty)
     } yield {
+
       val placeholders = {
         subConfig.getConfig("placeholders").map { config =>
           config.subKeys.map { key => (key -> config.getString(key).getOrElse("")) }.toMap
@@ -47,6 +48,7 @@ class ConfigReader(configuration: Configuration, environment: Environment) {
 
       dbName -> FlywayConfiguration(
         database,
+        validateOnStart = subConfig.getBoolean("validateOnStart").getOrElse(false),
         subConfig.getBoolean("auto").getOrElse(false),
         subConfig.getStringList("locations").getOrElse(java.util.Collections.emptyList[String]).asScala.toList,
         subConfig.getString("encoding"),
