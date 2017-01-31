@@ -1,4 +1,6 @@
-scalariformSettings
+import com.nitro.build.settings.Publish
+
+enablePlugins(NitroRelease)
 
 val flywayPlayVersion = "3.0.1"
 
@@ -7,8 +9,8 @@ val scalatest = "org.scalatest" %% "scalatest" % "2.1.5" % "test"
 lazy val plugin = Project (
   id = "plugin",
   base = file ("plugin")
-).enablePlugins(SbtTwirl).settings(
-  Seq(
+).enablePlugins(SbtTwirl, NitroLibrary).settings(
+  Publish.settings ++ Seq(
     name := "flyway-play",
     organization := "org.flywaydb",
     version := flywayPlayVersion,
@@ -22,8 +24,10 @@ lazy val plugin = Project (
       scalatest
     ),
     scalacOptions ++= Seq("-language:_", "-deprecation")
-  ) ++ scalariformSettings ++ publishingSettings :_*
+  )
 )
+
+nitroPublish <<= publish in plugin
 
 val appDependencies = Seq(
   "com.h2database" % "h2" % "[1.3,)",
