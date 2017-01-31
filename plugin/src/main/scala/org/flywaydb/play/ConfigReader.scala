@@ -48,7 +48,7 @@ class ConfigReader(configuration: Configuration, environment: Environment) {
 
       dbName -> FlywayConfiguration(
         database,
-        validateOnStart = subConfig.getBoolean("validateOnStart").getOrElse(false)
+        validateOnStart = subConfig.getBoolean("validateOnStart").getOrElse(false),
         subConfig.getBoolean("auto").getOrElse(false),
         subConfig.getStringList("locations").getOrElse(java.util.Collections.emptyList[String]).asScala.toList,
         subConfig.getString("encoding"),
